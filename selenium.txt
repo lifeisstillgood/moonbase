@@ -1,0 +1,60 @@
+========
+selenium
+========
+
+Installing the testing tool.
+----------------------------
+
+I intend to use the selenium RC test tool
+
+This is a java-based server that sits on the test machine, and sends
+commands to the javascript-based app on the browser.  The server
+interprets commands sent to it, over the network, by a client, which
+can be Python.
+
+So, in short, I can write a Python file (UnitTest) that sends commands
+to a remote PC (or virtual instance) and that will run selenium tests, on Ubuntu, XP etc etc.
+
+
+1. Download Selenium-rc from seleniumhq.org
+2. Extract the rc and follow the install instructions
+3. run the Selenium *server* on the testing machine ::
+
+  java -jar $LOC/selenium-server.jar
+
+4. get the client script working, by downloading the python extension.
+   This is basically a library and some examples.  
+
+
+::
+
+  cp selenium.py /usr/local/lib/python2.6/site-packages/
+  cp selenium.py /usr/local/lib/python2.6/dist-packages/ #this works for ubuntu
+
+
+
+Reporting
+---------
+
+`HTMLTestRunner
+ <http://tungwaiyip.info/software/HTMLTestRunner.html>`_ is a seperate
+ script that, basically wraps UnitTest and outputs html with Pie
+ charts, HTML table for easy viewing of all tests.
+
+  
+This is really good.  All you do for basic use if import then replace the unittest run 
+with ::
+
+    import unittest
+    import HTMLTestRunner
+
+    ... define your tests ...
+
+    if __name__ == '__main__':
+        HTMLTestRunner.main()
+
+
+Writing a test
+--------------
+
+   http://release.seleniumhq.org/selenium-remote-control/1.0-beta-2/doc/python/

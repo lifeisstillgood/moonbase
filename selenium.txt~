@@ -1,0 +1,19 @@
+========
+selenium
+========
+
+Installing the testing tool.
+I intend to use the selenium RC test tool
+This is a java-based server that sits on the test machine, and sends commands
+to the javascript based app on the browser.  The server interprets commands sent to it, over the network, by a client, which can be python
+
+
+
+cp selenium.py /usr/local/lib/python2.6/site-packages/
+cp selenium.py /usr/local/lib/python2.6/dist-packages/ #this works - dunno
+
+
+
+http://tungwaiyip.info/software/HTMLTestRunner.html
+
+http://release.seleniumhq.org/selenium-remote-control/1.0-beta-2/doc/python/
