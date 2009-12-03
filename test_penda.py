@@ -37,8 +37,8 @@ class TestSam(unittest.TestCase):
         sel = self.selenium
         #override default 30s timeout (!)
         sel.set_timeout(60000)  # not same in python client as documents...
-        sel.open("https://www.samlearning.com")
-        sel.type("centerId", "samsec2")
+        sel.open("https://stage15.pendalearning.com")
+        sel.type("centerId", "cademo")
         sel.type("login", "admin")
         sel.type("password", "sam")
 
@@ -46,10 +46,15 @@ class TestSam(unittest.TestCase):
 #long load time...
         sel.wait_for_page_to_load(60000)
 #        self.assertEqual("", sel.get_title())
-        self.assertTrue(sel.is_text_present("Welcome"))
+#        self.assertTrue(sel.is_text_present("Welcome"))
         print sel.get_title()
         print "+++"
-        print sel.get_text("id('contentFrame')/div[7]/div[1]/b") 
+
+#        print sel.get_text("xpath=id('footerStatisticsLayout')")
+        print sel.get_text("xpath=id('contentFrame')/div[6]/div[1]/b") 
+        print sel.get_text("xpath=id('contentFrame')/div[7]/div[1]/b") 
+        print sel.get_text("xpath=id('contentFrame')/div[8]/div[1]/b") 
+        print sel.get_text("xpath=id('contentFrame')/div[9]/div[1]/b") 
 
     def tearDown(self):
         self.selenium.stop()

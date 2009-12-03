@@ -53,6 +53,14 @@ with ::
     if __name__ == '__main__':
         HTMLTestRunner.main()
 
+identifying parts of the page
+-----------------------------
+Install XPathChecker for Firefox
+Right click on part of the page you are interested in
+get the Xpath
+
+print sel.get_text("xpath=id('contentFrame')/div[6]/div[1]/b")
+
 
 Writing a test
 --------------
