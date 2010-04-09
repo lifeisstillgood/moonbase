@@ -17,12 +17,15 @@ to a remote PC (or virtual instance) and that will run selenium tests, on Ubuntu
 
 
 1. Download Selenium-rc from seleniumhq.org
+
 2. Extract the rc and follow the install instructions
-3. run the Selenium *server* on the testing machine ::
 
-  java -jar $LOC/selenium-server.jar
+3. run the Selenium *server* on the testing machine.  That is, extract selenium RC onto the machine that the browser will run *on* ::
+   
+    java -jar $LOC/selenium-server.jar
 
-4. get the client script working, by downloading the python extension.
+4. Now on any machine (the one the browser is on, your workstation, whatever)
+   get the client script working, by downloading the python extension.
    This is basically a library and some examples.  
 
 
@@ -32,18 +35,85 @@ to a remote PC (or virtual instance) and that will run selenium tests, on Ubuntu
   cp selenium.py /usr/local/lib/python2.6/dist-packages/ #this works for ubuntu
 
 
+I have a convenience script that I use - start_selenium-server.sh
+
+Simple example for samlearning.com
+----------------------------------
+This is a sample python file that can be run ::
+
+    def setUp(self):
+        self.selenium = selenium("localhoxst", \
+            4444, "*firefox", "https://www.samlearning.com")
+        self.selenium.start()
+
+        def test_sam_login(self):
+            sel = self.selenium
+            #override default 30s timeout (!)
+            sel.set_timeout(60000)  # not same in python client as documents...
+            sel.open("https://sam:sam@stage15.pendalearning.com")
+
+            sel.type("centerId", "cademo")
+            sel.type("login", "admin")
+            sel.type("password", "sam")
+
+            sel.click("submit")
+            #long load time...
+            sel.wait_for_page_to_load(60000)
+            print sel.get_title()
+            print "+++"
+            print sel.get_text("xpath=id('contentFrame')/div[6]/div[1]/b") 
+            print sel.get_text("xpath=id('contentFrame')/div[7]/div[1]/b") 
+            print sel.get_text("xpath=id('contentFrame')/div[8]/div[1]/b") 
+            print sel.get_text("xpath=id('contentFrame')/div[9]/div[1]/b") 
+
+
+Comments
+~~~~~~~~
+
+1. we setup the selenium object in Python, using a firefox-overlaythingy
+
+2. timeouts are important - especially for sam, cos things can take a long time for a final load of all the DOM.
+
+3. then we run some simple commands (all detailed in the manual below).  Open, type and click all do the basics of everyday use.  We have in 5 lines, opened the stage15.pendalearning, entered in a user and submitted.
+
+4. now we see how to get to parts of the page - I use the xpath setting at pretty much all times.  You can discover the xpath setting by reading the HTML OR and this is *much* easier, using XPathChecker plugin for firefox - you click on an HTML object in browser and it shows you the xpath.  Really Really easy.
+
+Screenshots
+-----------
+
+I planned, but never got round to, having selenium visit "every" page in the website, and take a screenshot, then all a human would have to do is review the images not actually run through the site.  It is still a good idea. 
+
+::
+
+    def test_google(self):
+        sel = self.selenium
+        sel.open("http://www.google.com/webhp")
+
+        ### it seems to need a bit of extra time to actuially maximise... 
+        sel.window_maximize()
+        sel.type("q", "hello world")
+        sel.click("btnG")
+        sel.wait_for_page_to_load(5000)
+        self.assertEqual("hello world - Google Search", sel.get_title())
+        # this line seemed unnecessary - I only want firefox window 
+        # sel.capture_entire_page_screenshot('/tmp/screenshot1.png', background="#000000")
+
+        ### this line is sooo simple.
+        sel.capture_screenshot('/tmp/screenshot2.png')
+
+
 
 Reporting
 ---------
 
 `HTMLTestRunner
- <http://tungwaiyip.info/software/HTMLTestRunner.html>`_ is a seperate
- script that, basically wraps UnitTest and outputs html with Pie
- charts, HTML table for easy viewing of all tests.
+<http://tungwaiyip.info/software/HTMLTestRunner.html>`_ is a seperate
+script that, basically wraps UnitTest and outputs html with Pie
+charts, HTML table for easy viewing of all tests.
 
   
-This is really good.  All you do for basic use if import then replace the unittest run 
-with ::
+This is really good.  All you do for basic use if import then replace
+the unittest run with ::
 
     import unittest
     import HTMLTestRunner
@@ -55,6 +125,7 @@ with ::
 
 identifying parts of the page
 -----------------------------
+
 Install XPathChecker for Firefox
 Right click on part of the page you are interested in
 get the Xpath
