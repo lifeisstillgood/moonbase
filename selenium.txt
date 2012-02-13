@@ -50,11 +50,11 @@ This is a sample python file that can be run ::
             sel = self.selenium
             #override default 30s timeout (!)
             sel.set_timeout(60000)  # not same in python client as documents...
-            sel.open("https://sam:sam@stage15.pendalearning.com")
+            sel.open("https://user:pass@stage15.example.com")
 
-            sel.type("centerId", "cademo")
+            sel.type("centerId", "demo")
             sel.type("login", "admin")
-            sel.type("password", "sam")
+            sel.type("password", "pass")
 
             sel.click("submit")
             #long load time...
